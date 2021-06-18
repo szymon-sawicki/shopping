@@ -1,0 +1,10 @@
+domain\product\Product.class
+domain\config\converter\JsonConverterException.class
+domain\customer\CustomerUtils.class
+domain\customer\CustomerValidator.class
+domain\config\validator\Validator.class
+domain\config\converter\JsonConverter.class
+domain\config\validator\ValidatorException.class
+domain\customer\exception\CustomerException.class
+domain\customer\Customer.class
+domain\customer\converter\CustomerConverter.class
