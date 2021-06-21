@@ -2,19 +2,22 @@ package domain.customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 
 @AllArgsConstructor
 @Builder
 
+/**
+ * Domain class representing customer, contains few simple properties
+ * @Author Szymon Sawicki
+ */
+
 public class Customer {
 
     String firstName;
     String lastName;
-    int Age;
+    int age;
     BigDecimal cash;
 
 }

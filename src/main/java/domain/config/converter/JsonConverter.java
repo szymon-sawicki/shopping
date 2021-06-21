@@ -9,6 +9,11 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Optional;
 
+/**
+ * wrapper of Gson - transforms json data i both directions. Child classes performs transformation for implemented types
+ * @param <T> type to be converted
+ */
+
 public class JsonConverter<T> {
 
     //private final String jsonFilename;
