@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Builder
 
 /**
- * Domain class representing customer, contains few simple properties
+ * Domain object representing customer, contains few simple properties
  * @Author Szymon Sawicki
  */
 

@@ -2,9 +2,11 @@ package com.app.domain.product.validator;
 
 import com.app.domain.config.validator.Validator;
 import com.app.domain.config.validator.ValidatorException;
+import com.app.domain.customer.CustomerValidator;
 import com.app.domain.product.Product;
 import com.app.domain.product.ProductValidator;
 import com.app.domain.product.type.Category;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +22,7 @@ public class ProductValidatorTest {
         var productValidator = new ProductValidator();
         assertThatThrownBy(() -> Validator.validate(productValidator, null))
                 .isInstanceOf(ValidatorException.class)
-                .hasMessageContaining("[VALIDATION ERRORS]:")
+                .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("product: is null");
     }
 
@@ -36,7 +38,7 @@ public class ProductValidatorTest {
 
         assertThatThrownBy(() -> Validator.validate(productValidator, product))
                 .isInstanceOf(ValidatorException.class)
-                .hasMessageContaining("[VALIDATION ERRORS]:")
+                .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("name: is too short - 2");
 
     }
@@ -53,7 +55,7 @@ public class ProductValidatorTest {
 
         assertThatThrownBy(() -> Validator.validate(productValidator, product))
                 .isInstanceOf(ValidatorException.class)
-                .hasMessageContaining("[VALIDATION ERRORS]:")
+                .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("price: must have positive value");
 
     }
@@ -70,7 +72,7 @@ public class ProductValidatorTest {
 
         assertThatThrownBy(() -> Validator.validate(productValidator, product))
                 .isInstanceOf(ValidatorException.class)
-                .hasMessageContaining("[VALIDATION ERRORS]:")
+                .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("price: is null");
 
     }
@@ -89,8 +91,22 @@ public class ProductValidatorTest {
 
         assertThatThrownBy(() -> Validator.validate(productValidator, product))
                 .isInstanceOf(ValidatorException.class)
-                .hasMessageContaining("[VALIDATION ERRORS]:")
+                .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("category: is null");
+
+    }
+
+    @Test
+    @DisplayName("when object is proper")
+    public void test6() {
+        var productValidator = new ProductValidator();
+        var product = Product.builder()
+                .name("laptop")
+                .category(Category.ELECTRONIC)
+                .price(new BigDecimal("50"))
+                .build();
+
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(() -> Validator.validate(productValidator,product));
 
     }
 
