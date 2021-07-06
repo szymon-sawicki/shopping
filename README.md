@@ -18,14 +18,9 @@ Build tool: Maven
 
 next tasks:
 
-* write test for validator of customer class
 * finish shopping class in domain layer with TDD
 
-
-Domain layer:
-
-- add utility interfaces to com.app.domain objects
-- write tests to all com.app.domain objects
+think about location of shopping logic (service, domain ?)
 
 
 Service layer:
