@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Builder
 
 /**
- * class representing product bought by customer
+ * class representing product that can be buy by consumer
  * @Author: Szymon Sawicki
  */
 

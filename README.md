@@ -1,7 +1,8 @@
 # shopping-app
 
-Simple app used to train java collections skills (mostly maps) and TDD.  
+Simple app used to train java collections skills (mostly maps) and TDD.
 Maybe will make rest web api with spark web framework, but i'm not sure at the moment
+
 
 ### Technology stack
 - Java 16
