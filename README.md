@@ -1,7 +1,7 @@
 # shopping-app
 
-Simple app used to train java collections skills and TDD.  
-I will made rest web api with spark web framework
+Simple app used to train java collections skills (mostly maps) and TDD.  
+Maybe will make rest web api with spark web framework, but i'm not sure at the moment
 
 ### Technology stack
 - Java 16
@@ -17,19 +17,19 @@ Build tool: Maven
 
 next tasks:
 
-* write validators for product and shopping classes
+* write test for validator of customer class
+* finish shopping class in domain layer with TDD
 
 
 Domain layer:
 
+- add utility interfaces to com.app.domain objects
+- write tests to all com.app.domain objects
 
-- add utility interfaces to domain objects
-- write tests to all domain objects
-- write javadoc comments to all classes in domain
 
 Service layer:
 
-when domain layer will be ready!
+when com.app.domain layer will be ready!
  
 1. at first method names and tests
 2. implementation of service methods
