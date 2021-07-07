@@ -1,0 +1,15 @@
+{
+  "customer": {
+    "firstName": "Macaroni",
+    "lastName": "Carbonara",
+    "age": 17,
+    "cash": 90
+  },
+  "products": [
+    {
+      "name": "BIKE",
+      "category": "SPORT",
+      "price": 45
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "customer": {
+    "firstName": "Carl",
+    "lastName": "Comanch",
+    "age": 21,
+    "cash": 200
+  },
+  "products": [
+    {
+      "name": "BALL",
+      "category": "SPORT",
+      "price": 17
+    }
+  ]
+}

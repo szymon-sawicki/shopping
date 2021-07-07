@@ -1,0 +1,20 @@
+{
+  "customer": {
+    "firstName": "Macaroni",
+    "lastName": "Carbonara",
+    "age": 17,
+    "cash": 90
+  },
+  "products": [
+    {
+      "name": "HARRY POTTER",
+      "category": "BOOK",
+      "price": 20
+    },
+    {
+      "name": "WALKMAN",
+      "category": "ELECTRONIC",
+      "price": 30
+    }
+  ]
+}

@@ -3,11 +3,13 @@ package com.app.domain.product;
 import com.app.domain.product.type.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
 
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 
 /**
  * class representing product that can be buy by consumer

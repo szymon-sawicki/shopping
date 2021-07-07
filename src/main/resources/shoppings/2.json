@@ -1,0 +1,25 @@
+{
+  "customer": {
+    "firstName": "Andrea",
+    "lastName": "Ripponi",
+    "age": 34,
+    "cash": 150
+  },
+  "products": [
+    {
+      "name": "BALL",
+      "category": "SPORT",
+      "price": 17
+    },
+    {
+      "name": "BIKE",
+      "category": "SPORT",
+      "price": 45
+    },
+    {
+      "name": "HI-FI",
+      "category": "ELECTRONIC",
+      "price": 50
+    }
+  ]
+}

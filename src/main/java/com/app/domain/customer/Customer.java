@@ -2,11 +2,13 @@ package com.app.domain.customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
 
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 
 /**
  * Domain object representing customer, contains few simple properties
