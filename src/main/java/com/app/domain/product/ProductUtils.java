@@ -14,5 +14,6 @@ public interface ProductUtils {
 
     Function<Product, BigDecimal> toPrice = product -> product.price;
     Function<Product, Category> toCategory = product -> product.category;
+    Function<Product, String> toName = product -> product.name;
 
 }

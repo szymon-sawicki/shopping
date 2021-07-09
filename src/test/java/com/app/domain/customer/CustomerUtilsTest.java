@@ -39,4 +39,17 @@ public class CustomerUtilsTest {
 
     }
 
+    @Test
+    @DisplayName("when last name is Carlos")
+    public void test3() {
+
+        var customer = Customer.builder()
+                .lastName("Carlos")
+                .build();
+
+        assertThat(toLastName.apply(customer))
+                .isEqualTo("Carlos");
+
+    }
+
 }

@@ -38,4 +38,17 @@ public class ProductUtilsTest {
 
     }
 
+    @Test
+    @DisplayName("when product have price name Banana")
+    public void test3() {
+
+        var product = Product.builder()
+                .name("Banana")
+                .build();
+
+        assertThat(toName.apply(product))
+                .isEqualTo("Banana");
+
+    }
+
 }

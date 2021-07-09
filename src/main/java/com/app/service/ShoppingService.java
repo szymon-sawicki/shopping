@@ -85,6 +85,15 @@ public class ShoppingService {
 
     }
 
+    /**
+     *
+     * @return hash map with shopping activities
+     */
+
+    public HashMap<Customer, HashMap<Product, Integer>> getShoppingMap() {
+        return shoppingMap;
+    }
+
     private boolean checkFile(String filename) {
         File file = new File(filename);
         return file.exists();

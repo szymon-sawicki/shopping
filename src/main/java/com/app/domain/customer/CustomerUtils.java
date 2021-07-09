@@ -12,4 +12,5 @@ public interface CustomerUtils {
 
     Function<Customer,Integer> toAge = customer -> customer.age;
     Function<Customer, BigDecimal> toCash = customer -> customer.cash;
+    Function<Customer, String> toLastName = customer -> customer.lastName;
 }
