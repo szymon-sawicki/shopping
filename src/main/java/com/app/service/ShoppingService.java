@@ -2,9 +2,7 @@ package com.app.service;
 
 
 import com.app.domain.customer.Customer;
-import com.app.domain.customer.CustomerUtils;
 import com.app.domain.product.Product;
-import com.app.domain.shopping.ShoppingUtils;
 import com.app.domain.shopping.converter.ShoppingConverter;
 import com.app.domain.shopping.exception.ShoppingException;
 import com.app.service.exception.ShoppingServiceException;
@@ -13,11 +11,15 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.ToDoubleBiFunction;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
-import static com.app.domain.shopping.ShoppingUtils.*;
+import static com.app.domain.shopping.ShoppingUtils.toCustomer;
+import static com.app.domain.shopping.ShoppingUtils.toProducts;
 
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -40,7 +42,7 @@ public class ShoppingService {
      * map with customers and their shopping lists
      * customer is key, value is another map with product as key and amount of that product as value
      */
-    HashMap<Customer, HashMap<Product, Integer>> shoppingMap;
+    Map<Customer, Map<Product, Long>> shoppingMap = new HashMap<Customer, Map<Product, Long>>();
 
     /**
      * constructor that takes array of filenames, check them and assign to class field
@@ -49,7 +51,7 @@ public class ShoppingService {
      */
     public ShoppingService(List<String> listOfFiles) {
 
-        if(listOfFiles == null) {
+        if (listOfFiles == null) {
             throw new ShoppingException("list of files cannot be null");
         }
 
@@ -73,25 +75,82 @@ public class ShoppingService {
             throw new ShoppingException("filenames cannot be null");
         }
 
-        filenames.forEach(item -> {
-           var shopping = new ShoppingConverter(item).fromJson().orElseThrow();
+        var tempMap = new HashMap<Customer, List<Product>>();
+
+        filenames.forEach(filename -> {
+
+            var shopping = new ShoppingConverter(filename).fromJson().orElseThrow(() -> new ShoppingServiceException("cannot read file " + filename));
+            var customer = toCustomer.apply(shopping);
+            var products = toProducts.apply(shopping);
 
 
-          // shoppingMap.put(toCustomer.apply(shopping),toProducts.apply(shopping).stream()
+
+
+            if (tempMap.containsKey(customer)) {
+                var tempList = tempMap.get(customer);
+                tempList.addAll(products);
+                tempMap.put(customer, tempList);
+            } else {
+                tempMap.computeIfAbsent(customer, k -> new ArrayList<>()).addAll(products);
+            }
+
+            shoppingMap = tempMap.entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, e -> toMapWithStatistics(e.getValue())));
+
+
+
+/*
+            var lOfProducts = shoppingMap.put(customer, toProducts.apply(shopping)
+                    .stream()
+                    .collect(
+                            Collectors.groupingBy(Function.identity(), Collectors.counting())));
+
+*/
 
 
         });
 
+    }
+
+    private Map<Product, Long> toMapWithStatistics(List<Product> listOfProducts) {
+
+        return listOfProducts.stream()
+                .collect(
+                        Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+    }
+
+    /**
+     * @return hash map with shopping activities
+     */
+
+    public Map<Customer, Map<Product, Long>> getShoppingMap() {
+        return shoppingMap;
+    }
+
+    public Customer customerWithMostExpensiveShopping() {
+
+    return null;
 
     }
 
     /**
      *
-     * @return hash map with shopping activities
+     * @return sum of all products prices
      */
 
-    public HashMap<Customer, HashMap<Product, Integer>> getShoppingMap() {
-        return shoppingMap;
+    public BigDecimal billForShopping() {
+        TODO
+    }
+
+    /**
+     *
+     * @return sum of all prices for products from given category
+     */
+
+    public BigDecimal billForShoppingFromGivenCategory() {
+        TODO
     }
 
     private boolean checkFile(String filename) {

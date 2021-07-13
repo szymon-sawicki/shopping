@@ -1,8 +1,9 @@
 # shopping-app
 
-Simple app used to train java collections skills (mostly maps) and TDD. 
-Data will be loaded from json files, I used own, external Validator
-Maybe I will make web api with spark web framework, but i'm not sure at the moment
+- PROJECT IS UNFINISHED -
+
+Simple app used to train java collections skills and TDD. This is not real business case, i made it to have some fun with maps and their testing.
+Data will be loaded from json files, I used my own Validator
 
 ### Project structure
 
@@ -23,6 +24,7 @@ Config
 - base classes and interfaces like Validator, JsonConverter
 
 ### Technology stack
+
 - Java 16
 - Junit5
 - AssertJ
@@ -35,8 +37,9 @@ Build tool: Maven
 
 next tasks:
 
-* ShoppingService: finish initialization method 
- 
-* at first method names and tests
+- write one or two additional tests of initialization method in ShoppingService
+- at first tests and then implementation of methods calculating sum for shopping
+- write method finding customer with highest price for shopping
 
-* implementation of service methods
+* implementation of another service methods with tests
+* make rest api with Spark web framework

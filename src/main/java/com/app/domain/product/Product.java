@@ -4,12 +4,14 @@ import com.app.domain.product.type.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
+@ToString
 
 /**
  * class representing product that can be buy by consumer

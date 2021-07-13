@@ -87,9 +87,28 @@ public class ShoppingServiceTest {
 
         var productsMap = shoppingService.getShoppingMap().get(customer);
 
+        System.out.println(productsMap);
+
         assertThat(productsMap.get(product))
                 .isEqualTo(3);
 
     }
+
+    @Test
+    @DisplayName("when customer with most expensive shopping is given")
+    public void test4() {
+
+        var expectedCustomerLastName = "Carbonara";
+
+        var customerLastName = CustomerUtils.toLastName.apply((shoppingService.customerWithMostExpensiveShopping()));
+
+        assertThat(customerLastName)
+                .isEqualTo(expectedCustomerLastName);
+
+    }
+
+/*    @Test
+    @DisplayName("")
+    public void test5()*/
 
 }
