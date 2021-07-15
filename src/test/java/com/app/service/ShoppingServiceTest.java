@@ -44,7 +44,6 @@ public class ShoppingServiceTest {
     @DisplayName("when all products bought by the customer are loaded to map properly")
     public void test2() {
 
-        var expectedProductsCount = 5;
 
         var expectedNames = List.of("HARRY POTTER","WALKMAN","HI-FI","BALL","LORD OF THE RINGS");
 
@@ -87,7 +86,6 @@ public class ShoppingServiceTest {
 
         var productsMap = shoppingService.getShoppingMap().get(customer);
 
-        System.out.println(productsMap);
 
         assertThat(productsMap.get(product))
                 .isEqualTo(3);
@@ -113,8 +111,10 @@ public class ShoppingServiceTest {
 
         var expectedLastname = "Comanch";
 
-        var resultedLastName = toLastName.apply(shoppingService.greatestBillFromCategory(Category.ELECTRONIC));
+        var lastName = toLastName.apply(shoppingService.greatestBillFromCategory(Category.ELECTRONIC));
 
+        assertThat(lastName)
+                .isEqualTo(expectedLastname);
 
     }
 

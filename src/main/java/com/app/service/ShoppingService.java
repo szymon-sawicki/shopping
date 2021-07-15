@@ -3,6 +3,7 @@ package com.app.service;
 
 import com.app.domain.customer.Customer;
 import com.app.domain.product.Product;
+import com.app.domain.product.ProductUtils;
 import com.app.domain.product.type.Category;
 import com.app.domain.shopping.converter.ShoppingConverter;
 import com.app.domain.shopping.exception.ShoppingException;
@@ -92,14 +93,14 @@ public class ShoppingService {
 
             shoppingMap = tempMap.entrySet()
                     .stream()
-                    .collect(Collectors.toMap(Map.Entry::getKey, e -> toMapWithStatistics(e.getValue())));
+                    .collect(Collectors.toMap(Map.Entry::getKey, e -> toMapWithProductsStatistics(e.getValue())));
 
         });
 
     }
 
 
-    private Map<Product, Long> toMapWithStatistics(List<Product> listOfProducts) {
+    private Map<Product, Long> toMapWithProductsStatistics(List<Product> listOfProducts) {
 
         return listOfProducts.stream()
                 .collect(
@@ -115,30 +116,60 @@ public class ShoppingService {
         return shoppingMap;
     }
 
+
+    /**
+     * @return customer with greatest bill
+     */
+
     public Customer greatestBill() {
 
-    return null;
+        return shoppingMap.entrySet()
+                .stream()
+                .max(Comparator.comparing(e -> totalShoppingAmount(e.getValue())))
+                .map(Map.Entry::getKey)
+                .orElseThrow();
+
+    }
+
+
+    private BigDecimal totalShoppingAmount(Map<Product, Long> map) {
+
+        return map.entrySet().stream()
+                .map(a -> ProductUtils.toPrice.apply(a.getKey()).multiply(BigDecimal.valueOf(a.getValue())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     }
 
     /**
-     *
      * @param category
      * @return customer with greatest bill from given category
      */
 
     public Customer greatestBillFromCategory(Category category) {
-        if(category == null) {
+        if (category == null) {
             throw new ShoppingServiceException("category is null");
         }
 
-        return null;
+        return shoppingMap.entrySet()
+                .stream()
+                .max(Comparator.comparing(e -> totalShoppingAmountInCategory(e.getValue(),category)))
+                .map(Map.Entry::getKey)
+                .orElseThrow();
+
+    }
+
+    private BigDecimal totalShoppingAmountInCategory(Map<Product, Long> map, Category category) {
+
+        return map.entrySet()
+                .stream()
+                .filter(entry -> ProductUtils.toCategory.apply(entry.getKey()).equals(category))
+                .map(a -> ProductUtils.toPrice.apply(a.getKey()).multiply(new BigDecimal(a.getValue())))
+                .reduce(BigDecimal.ZERO,BigDecimal::add);
 
     }
 
     /**
-     *
-     * @return map with ages as keys and most popular category in this age
+     * @return map with ages as keys and most popular category in this age as value
      */
 
     public HashMap<Integer, Category> ageStats() {
@@ -148,11 +179,10 @@ public class ShoppingService {
     }
 
     /**
-     *
-      * @return map with customers as keys and their cash after shopping as values
+     * @return map with customers as keys and their cash after shopping as values
      */
 
-    public Map<Customer,BigDecimal> cutomersCashAfterShopping() {
+    public Map<Customer, BigDecimal> cutomersCashAfterShopping() {
 
         return null;
 
@@ -163,7 +193,6 @@ public class ShoppingService {
         File file = new File(filename);
         return file.exists();
     }
-
 
 
 }

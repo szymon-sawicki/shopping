@@ -1,6 +1,7 @@
 package com.app.domain.product;
 
 import com.app.domain.product.type.Category;
+import com.app.domain.shopping.exception.ShoppingException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -35,5 +36,13 @@ public class Product {
      * price of product
      */
     BigDecimal price;
+
+
+    public boolean hasCategory(Category category) {
+        if(category == null) {
+            throw new ShoppingException("category is null");
+        }
+        return this.category.equals(category);
+    }
 
 }

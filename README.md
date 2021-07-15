@@ -1,6 +1,6 @@
 # shopping-app
 
-- PROJECT IS UNFINISHED -
+- PROJECT IS STILL UNFINISHED -
 
 Simple app used to train java collections skills and TDD. This is not real business case, i made it to have some fun with maps and their testing.
 Data will be loaded from json files, I used my own Validator
@@ -37,9 +37,7 @@ Build tool: Maven
 
 next tasks:
 
-- write one or two additional tests of initialization method in ShoppingService
-- at first tests and then implementation of methods calculating sum for shopping
-- write method finding customer with highest price for shopping
+- make implementation of last two shopping service methods
+- write separate classes for statistics of categories 
 
-* implementation of another service methods with tests
-* make rest api with Spark web framework
+* make REST API with Spark web framework
