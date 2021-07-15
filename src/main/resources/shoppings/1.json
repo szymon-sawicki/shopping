@@ -10,6 +10,11 @@
       "name": "BALL",
       "category": "SPORT",
       "price": 17
+    },
+    {
+      "name": "Toaster",
+      "category": "ELECTRONIC",
+      "price": 40
     }
   ]
 }

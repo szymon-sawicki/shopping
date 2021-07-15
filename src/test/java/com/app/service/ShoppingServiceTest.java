@@ -1,21 +1,21 @@
 package com.app.service;
 
 import com.app.domain.customer.Customer;
-import com.app.domain.customer.CustomerUtils;
 import com.app.domain.product.Product;
 import com.app.domain.product.ProductUtils;
 import com.app.domain.product.type.Category;
 import com.app.extension.ShoppingServiceExtension;
 import lombok.RequiredArgsConstructor;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
-import static org.assertj.core.api.Assertions.*;
+import static com.app.domain.customer.CustomerUtils.toLastName;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(ShoppingServiceExtension.class)
 @RequiredArgsConstructor
@@ -33,7 +33,7 @@ public class ShoppingServiceTest {
         var shoppingMap = shoppingService.shoppingMap;
 
         var givenNames = shoppingMap.keySet().stream()
-                .map(CustomerUtils.toLastName::apply);
+                .map(toLastName::apply);
 
         assertThat(givenNames)
                 .hasSize(4)
@@ -95,20 +95,80 @@ public class ShoppingServiceTest {
     }
 
     @Test
-    @DisplayName("when customer with most expensive shopping is given")
+    @DisplayName("when customer with greatest bill is returned")
     public void test4() {
 
         var expectedCustomerLastName = "Carbonara";
 
-        var customerLastName = CustomerUtils.toLastName.apply((shoppingService.customerWithMostExpensiveShopping()));
+        var customerLastName = toLastName.apply((shoppingService.greatestBill()));
 
         assertThat(customerLastName)
                 .isEqualTo(expectedCustomerLastName);
 
     }
 
-/*    @Test
-    @DisplayName("")
-    public void test5()*/
+    @Test
+    @DisplayName("when customer with greatest bill in category electronic is returned")
+    public void test5() {
+
+        var expectedLastname = "Comanch";
+
+        var resultedLastName = toLastName.apply(shoppingService.greatestBillFromCategory(Category.ELECTRONIC));
+
+
+    }
+
+    @Test
+    @DisplayName("when map with age of customers is returned")
+    public void test6() {
+
+        var expectedSetOfAges = Set.of(21,34,17,67);
+
+        var mapOfAges = shoppingService.ageStats();
+        var setOfAges = mapOfAges.keySet();
+
+        assertThat(expectedSetOfAges)
+                .containsAll(setOfAges);
+
+        assertThat(mapOfAges)
+                .containsEntry(21,Category.ELECTRONIC);
+
+    }
+
+    @Test
+    @DisplayName("when map with customers debts is returned")
+    public void test7() {
+
+        var mapWithmapWithCash = shoppingService.cutomersCashAfterShopping();
+
+        var expectedCustomer = Customer.builder()
+                .firstName("Merry")
+                .lastName("McDonald")
+                .age(67)
+                .cash(new BigDecimal("280"))
+                .build();
+
+        var expectedCustomer2 = Customer.builder()
+                .firstName("Andrea")
+                .lastName("Ripponi")
+                .age(34)
+                .cash(new BigDecimal("150"))
+                .build();
+
+        var expectedCustomer3 = Customer.builder()
+                .firstName("Macaroni")
+                .lastName("Carbonara")
+                .age(17)
+                .cash(new BigDecimal("90"))
+                .build();
+
+        assertThat(mapWithmapWithCash)
+                .hasSize(4)
+                .containsEntry(expectedCustomer,new BigDecimal("173"))
+                .containsEntry(expectedCustomer2,new BigDecimal("102"))
+                .containsEntry(expectedCustomer3,new BigDecimal("-95"));
+
+    }
+
 
 }

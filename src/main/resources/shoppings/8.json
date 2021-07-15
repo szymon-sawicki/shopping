@@ -20,6 +20,11 @@
       "name": "HARRY POTTER",
       "category": "BOOK",
       "price": 20
+    },
+    {
+      "name": "Tablet",
+      "category": "ELECTRONIC",
+      "price": 35
     }
   ]
 }

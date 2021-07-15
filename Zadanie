@@ -22,7 +22,7 @@ W osobnej metodzie wyznacz klienta, który zapłacił najwięcej
 za zakupy z wybranej kategorii. Nazwę kategorii przekaż jako
 argument funkcji.
 
- Wykonaj zestawienie (mapę), w którym pokażesz wiek klientów oraz
+ Wykonaj zestawienie (mapę), w którym pokażesz wiek klientów oraz            21,34,17, 67           21 - ELECTRONIC
 kategorie produktów, które najchętniej w tym wieku kupowano.
 
  Wykonaj zestawienie (mapę), w którym pokażesz średnią cenę produktów

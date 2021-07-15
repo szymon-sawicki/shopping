@@ -3,6 +3,7 @@ package com.app.service;
 
 import com.app.domain.customer.Customer;
 import com.app.domain.product.Product;
+import com.app.domain.product.type.Category;
 import com.app.domain.shopping.converter.ShoppingConverter;
 import com.app.domain.shopping.exception.ShoppingException;
 import com.app.service.exception.ShoppingServiceException;
@@ -14,8 +15,6 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Function;
-import java.util.function.ToDoubleBiFunction;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static com.app.domain.shopping.ShoppingUtils.toCustomer;
@@ -27,7 +26,7 @@ import static com.app.domain.shopping.ShoppingUtils.toProducts;
 
 /**
  * class to manage shopping activities of customer. It contains list of filenames from which data will be loaded and
- * map with all customers as keys and another map as value. Map contains key - Product and as value amount of bought products.
+ * map with all customers as keys and another map as value. This map contains key - Product and as value amount of bought products.
  * @Author: Szymon Sawicki
  */
 
@@ -83,35 +82,22 @@ public class ShoppingService {
             var customer = toCustomer.apply(shopping);
             var products = toProducts.apply(shopping);
 
-
-
-
             if (tempMap.containsKey(customer)) {
                 var tempList = tempMap.get(customer);
                 tempList.addAll(products);
                 tempMap.put(customer, tempList);
             } else {
-                tempMap.computeIfAbsent(customer, k -> new ArrayList<>()).addAll(products);
+                tempMap.computeIfAbsent(customer, k -> new ArrayList<>(products));
             }
 
             shoppingMap = tempMap.entrySet()
                     .stream()
                     .collect(Collectors.toMap(Map.Entry::getKey, e -> toMapWithStatistics(e.getValue())));
 
-
-
-/*
-            var lOfProducts = shoppingMap.put(customer, toProducts.apply(shopping)
-                    .stream()
-                    .collect(
-                            Collectors.groupingBy(Function.identity(), Collectors.counting())));
-
-*/
-
-
         });
 
     }
+
 
     private Map<Product, Long> toMapWithStatistics(List<Product> listOfProducts) {
 
@@ -129,7 +115,7 @@ public class ShoppingService {
         return shoppingMap;
     }
 
-    public Customer customerWithMostExpensiveShopping() {
+    public Customer greatestBill() {
 
     return null;
 
@@ -137,25 +123,47 @@ public class ShoppingService {
 
     /**
      *
-     * @return sum of all products prices
+     * @param category
+     * @return customer with greatest bill from given category
      */
 
-    public BigDecimal billForShopping() {
-        TODO
+    public Customer greatestBillFromCategory(Category category) {
+        if(category == null) {
+            throw new ShoppingServiceException("category is null");
+        }
+
+        return null;
+
     }
 
     /**
      *
-     * @return sum of all prices for products from given category
+     * @return map with ages as keys and most popular category in this age
      */
 
-    public BigDecimal billForShoppingFromGivenCategory() {
-        TODO
+    public HashMap<Integer, Category> ageStats() {
+
+        return null;
+
     }
+
+    /**
+     *
+      * @return map with customers as keys and their cash after shopping as values
+     */
+
+    public Map<Customer,BigDecimal> cutomersCashAfterShopping() {
+
+        return null;
+
+    }
+
 
     private boolean checkFile(String filename) {
         File file = new File(filename);
         return file.exists();
     }
+
+
 
 }
