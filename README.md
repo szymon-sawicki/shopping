@@ -37,7 +37,8 @@ Build tool: Maven
 
 next tasks:
 
-- make implementation of last two shopping service methods
-- write separate classes for statistics of categories 
+- write test and implementation for method returning category statistics
+- find way to get map with age statistics
+
 
 * make REST API with Spark web framework
