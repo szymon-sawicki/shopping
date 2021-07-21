@@ -1,12 +1,15 @@
-package com.app.service;
+package com.app.service.data;
 
 import com.app.domain.product.Product;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 @Builder
-@RequiredArgsConstructor
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 @ToString
 
@@ -20,6 +23,9 @@ public class CategoryStats {
     Product mostExpensive;
     Product cheapest;
     BigDecimal average;
+
+
+
 
 
 }

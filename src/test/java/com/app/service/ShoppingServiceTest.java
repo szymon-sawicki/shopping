@@ -5,7 +5,9 @@ import com.app.domain.product.Product;
 import com.app.domain.product.ProductUtils;
 import com.app.domain.product.type.Category;
 import com.app.extension.ShoppingServiceExtension;
+import com.app.service.data.CategoryStats;
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -139,6 +141,22 @@ TODO
 */
 
     @Test
+    @DisplayName("when statistics of category SPORT are returned")
+    public void test8() {
+
+        var expectedMin = new BigDecimal("17");
+        var expectedMax= new BigDecimal("45");
+        var expectedAvg = new BigDecimal("31");
+
+        var sportStats = shoppingService.getCategoryStats(Category.SPORT);
+
+        Assertions.assertAll(
+                () -> assertThat(ProductUtils.toPrice.apply(sportStats.getCheapest())).isEqualTo(expectedMin),
+                () -> assertThat(ProductUtils.toPrice.apply(sportStats.getMostExpensive())).isEqualTo(expectedMax),
+                () -> assertThat(sportStats.getAverage()).isEqualTo(expectedAvg));
+    }
+
+    @Test
     @DisplayName("when map with customers debts is returned")
     public void test7() {
 
@@ -170,6 +188,19 @@ TODO
                 .containsEntry(expectedCustomer,new BigDecimal("173"))
                 .containsEntry(expectedCustomer2,new BigDecimal("38"))
                 .containsEntry(expectedCustomer3,new BigDecimal("-95"));
+
+    }
+
+    @Test
+    @DisplayName("when map with statistics of all categories")
+    public void test9() {
+
+        var mapWithCategoryStats = shoppingService.getMapWithCategoryStatistics();
+
+        assertThat(mapWithCategoryStats)
+                .isNotEmpty()
+                .hasSize(3);
+
 
     }
 

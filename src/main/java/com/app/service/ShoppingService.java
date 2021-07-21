@@ -4,10 +4,10 @@ package com.app.service;
 import com.app.domain.customer.Customer;
 import com.app.domain.customer.CustomerUtils;
 import com.app.domain.product.Product;
-import com.app.domain.product.ProductUtils;
 import com.app.domain.product.type.Category;
 import com.app.domain.shopping.converter.ShoppingConverter;
 import com.app.domain.shopping.exception.ShoppingException;
+import com.app.service.data.CategoryStats;
 import com.app.service.exception.ShoppingServiceException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +18,9 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import static com.app.domain.product.ProductUtils.*;
 import static com.app.domain.shopping.ShoppingUtils.toCustomer;
 import static com.app.domain.shopping.ShoppingUtils.toProducts;
 
@@ -101,15 +103,65 @@ public class ShoppingService {
     }
 
     /**
-     *
      * @return map with category statistics category as key and CategoryStats as value(most expensive and cheapest products, average price)
      * @see CategoryStats
      */
 
-    public Map<Category,CategoryStats> getMapWithCategoryStatistics() {
-        ...
-     //   TODO
-        return null;
+    public Map<Category, CategoryStats> getMapWithCategoryStatistics() {
+
+        return getAllProducts()
+                .stream()
+                .map(e->toCategory.apply(e))
+                .distinct()
+                .collect(Collectors.toMap(Function.identity(),e->getCategoryStats(e)));
+
+    }
+
+    /**
+     *
+     * @param category
+     * @return CategoryStats object with statistics of given category
+     * @see CategoryStats
+     */
+
+    public CategoryStats getCategoryStats(Category category) {
+        if (category == null) {
+            throw new ShoppingServiceException("category is null");
+        }
+
+        var products = getAllProducts().stream().filter(item -> toCategory.apply(item).equals(category)).toList();
+
+        Product cheapest = products.stream()
+                .min(Comparator.comparing(item -> toPrice.apply(item)))
+                .orElseThrow();
+
+        Product mostExpensive = products.stream()
+                .max(Comparator.comparing(item -> toPrice.apply(item)))
+                .orElseThrow();
+
+        BigDecimal averagePrice = products.stream()
+                .map(e -> toPrice.apply(e))
+                .reduce(BigDecimal::add)
+                .orElseThrow()
+                .divide(new BigDecimal(products.size()));
+
+        return CategoryStats.builder()
+                .cheapest(cheapest)
+                .mostExpensive(mostExpensive)
+                .average(averagePrice)
+                .build();
+
+
+    }
+
+    private List<Product> getAllProducts() {
+
+        return   shoppingMap.values()
+                .stream()
+                .flatMap(item -> item.keySet().stream())
+                .distinct()
+                .toList();
+
     }
 
     private Map<Product, Long> getMapWithProductsStatistics(List<Product> listOfProducts) {
@@ -142,7 +194,6 @@ public class ShoppingService {
                 .orElseThrow();
 
     }
-
 
 
     /**
@@ -206,12 +257,12 @@ TODO !!!!!!!!!!!!!
         return shoppingMap.entrySet()
                 .stream()
                 .collect(Collectors.toMap(k -> k.getKey(), v -> {
-                    return  CustomerUtils.toCash.apply(v.getKey()).subtract(
+                    return CustomerUtils.toCash.apply(v.getKey()).subtract(
                             v.getValue()
-                            .entrySet()
-                            .stream()
-                            .map(e -> ProductUtils.toPrice.apply(e.getKey()).multiply(new BigDecimal(e.getValue())))
-                            .reduce(BigDecimal.ZERO,BigDecimal::add)
+                                    .entrySet()
+                                    .stream()
+                                    .map(e -> toPrice.apply(e.getKey()).multiply(new BigDecimal(e.getValue())))
+                                    .reduce(BigDecimal.ZERO, BigDecimal::add)
                     );
                 }));
     }
@@ -219,19 +270,18 @@ TODO !!!!!!!!!!!!!
     private BigDecimal totalShoppingAmount(Map<Product, Long> map) {
 
         return map.entrySet().stream()
-                .map(a -> ProductUtils.toPrice.apply(a.getKey()).multiply(BigDecimal.valueOf(a.getValue())))
+                .map(a -> toPrice.apply(a.getKey()).multiply(BigDecimal.valueOf(a.getValue())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     }
-
 
 
     private BigDecimal totalShoppingAmountInCategory(Map<Product, Long> map, Category category) {
 
         return map.entrySet()
                 .stream()
-                .filter(entry -> ProductUtils.toCategory.apply(entry.getKey()).equals(category))
-                .map(a -> ProductUtils.toPrice.apply(a.getKey()).multiply(new BigDecimal(a.getValue())))
+                .filter(entry -> toCategory.apply(entry.getKey()).equals(category))
+                .map(a -> toPrice.apply(a.getKey()).multiply(new BigDecimal(a.getValue())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     }
