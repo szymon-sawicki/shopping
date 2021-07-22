@@ -111,9 +111,9 @@ public class ShoppingService {
 
         return getAllProducts()
                 .stream()
-                .map(e->toCategory.apply(e))
+                .map(toCategory::apply)
                 .distinct()
-                .collect(Collectors.toMap(Function.identity(),e->getCategoryStats(e)));
+                .collect(Collectors.toMap(Function.identity(), this::getCategoryStats));
 
     }
 
@@ -129,18 +129,18 @@ public class ShoppingService {
             throw new ShoppingServiceException("category is null");
         }
 
-        var products = getAllProducts().stream().filter(item -> toCategory.apply(item).equals(category)).toList();
+        var products = getAllProducts().stream().filter(product -> toCategory.apply(product).equals(category)).toList();
 
         Product cheapest = products.stream()
-                .min(Comparator.comparing(item -> toPrice.apply(item)))
+                .min(Comparator.comparing(product -> toPrice.apply(product)))
                 .orElseThrow();
 
         Product mostExpensive = products.stream()
-                .max(Comparator.comparing(item -> toPrice.apply(item)))
+                .max(Comparator.comparing(product -> toPrice.apply(product)))
                 .orElseThrow();
 
         BigDecimal averagePrice = products.stream()
-                .map(e -> toPrice.apply(e))
+                .map(product -> toPrice.apply(product))
                 .reduce(BigDecimal::add)
                 .orElseThrow()
                 .divide(new BigDecimal(products.size()));
@@ -154,15 +154,6 @@ public class ShoppingService {
 
     }
 
-    private List<Product> getAllProducts() {
-
-        return   shoppingMap.values()
-                .stream()
-                .flatMap(item -> item.keySet().stream())
-                .distinct()
-                .toList();
-
-    }
 
     private Map<Product, Long> getMapWithProductsStatistics(List<Product> listOfProducts) {
 
@@ -189,7 +180,7 @@ public class ShoppingService {
 
         return shoppingMap.entrySet()
                 .stream()
-                .max(Comparator.comparing(e -> totalShoppingAmount(e.getValue())))
+                .max(Comparator.comparing(entry -> totalShoppingAmount(entry.getValue())))
                 .map(Map.Entry::getKey)
                 .orElseThrow();
 
@@ -208,45 +199,11 @@ public class ShoppingService {
 
         return shoppingMap.entrySet()
                 .stream()
-                .max(Comparator.comparing(e -> totalShoppingAmountInCategory(e.getValue(), category)))
+                .max(Comparator.comparing(entry -> totalShoppingAmountInCategory(entry.getValue(), category)))
                 .map(Map.Entry::getKey)
                 .orElseThrow();
 
     }
-
-
-    /**
-     * @return map with ages as keys and most popular category in this age as value
-     */
-/*
-
-    public HashMap<Integer, Category> ageStats() {
-
-
-TODO !!!!!!!!!!!!!
-
-
-        return shoppingMap.entrySet()
-                .stream()
-                .collect(Collectors.groupingBy(
-                        entry -> CustomerUtils.toAge.apply(entry.getKey()),
-                        Collectors.collectingAndThen(
-                                Collectors.maxBy(Comparator.comparing(p -> p.getValue()))
-                        )
-                ));
-
-    }
-
-    private Category getFavoriteCategoryFromRow(Map<Product, Integer> productsMap) {
-
-        return productsMap.entrySet().stream()
-                .map(entry->)
-    }
-}
-
-
-
- */
 
     /**
      * @return map with customers as keys and their cash after shopping as values
@@ -256,7 +213,7 @@ TODO !!!!!!!!!!!!!
 
         return shoppingMap.entrySet()
                 .stream()
-                .collect(Collectors.toMap(k -> k.getKey(), v -> {
+                .collect(Collectors.toMap(entry -> entry.getKey(), v -> {
                     return CustomerUtils.toCash.apply(v.getKey()).subtract(
                             v.getValue()
                                     .entrySet()
@@ -270,7 +227,7 @@ TODO !!!!!!!!!!!!!
     private BigDecimal totalShoppingAmount(Map<Product, Long> map) {
 
         return map.entrySet().stream()
-                .map(a -> toPrice.apply(a.getKey()).multiply(BigDecimal.valueOf(a.getValue())))
+                .map(entry -> toPrice.apply(entry.getKey()).multiply(BigDecimal.valueOf(entry.getValue())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     }
@@ -283,6 +240,16 @@ TODO !!!!!!!!!!!!!
                 .filter(entry -> toCategory.apply(entry.getKey()).equals(category))
                 .map(a -> toPrice.apply(a.getKey()).multiply(new BigDecimal(a.getValue())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+    }
+
+    private List<Product> getAllProducts() {
+
+        return   shoppingMap.values()
+                .stream()
+                .flatMap(map -> map.keySet().stream())
+                .distinct()
+                .toList();
 
     }
 
