@@ -120,25 +120,7 @@ public class ShoppingServiceTest {
 
     }
 
-/*
-TODO
-    @Test
-    @DisplayName("when map with age of customers is returned")
-    public void test6() {
 
-        var expectedSetOfAges = Set.of(21,34,17,67);
-
-        var mapOfAges = shoppingService.ageStats();
-        var setOfAges = mapOfAges.keySet();
-
-        assertThat(expectedSetOfAges)
-                .containsAll(setOfAges);
-
-        assertThat(mapOfAges)
-                .containsEntry(21,Category.ELECTRONIC);
-
-    }
-*/
 
     @Test
     @DisplayName("when statistics of category SPORT are returned")

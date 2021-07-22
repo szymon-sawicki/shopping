@@ -1,0 +1,7 @@
+com\app\domain\customer\CustomerUtilsTest.class
+com\app\domain\customer\validator\CustomerValidatorTest.class
+com\app\extension\ShoppingServiceExtension.class
+com\app\service\ShoppingServiceTest.class
+com\app\domain\shopping\ShoppingUtilsTest.class
+com\app\domain\product\ProductUtilsTest.class
+com\app\domain\product\validator\ProductValidatorTest.class

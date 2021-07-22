@@ -1,6 +1,5 @@
 # shopping-app
 
-- PROJECT IS STILL UNFINISHED 
 
 Simple app used to train java collections skills and TDD. This is not real business case, i made it to have some fun with nested maps and their testing.
 Data will be loaded from json files, I used my own Validator
@@ -37,5 +36,4 @@ Build tool: Maven
 
 next tasks:
 
-- write method to display age statistics
-- make REST API with Spark web framework
+- DOCKERFILE
