@@ -34,10 +34,6 @@ public class App {
 
         routing.routes();
 
-        System.out.println(filenames);
-
-
-
     }
 
 }
